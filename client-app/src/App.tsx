@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Header, Icon, List } from 'semantic-ui-react';
 import './App.css';
 import Axios from 'axios';
 
@@ -17,15 +18,16 @@ class App extends Component {
 
   render() {
     let valuesLi = this.state.values.map((v: any) => (
-      <li key={v.id}>{v.name}</li>
+      <List.Item key={v.id}>{v.name}</List.Item>
     ));
 
     return (
-      <div className="App">
-        <header className="App-header">
-          <h3>Values:</h3>
-          <ul>{valuesLi}</ul>
-        </header>
+      <div>
+        <Header as="h2">
+          <Icon name="users" />
+          <Header.Content>Social Activities</Header.Content>
+        </Header>
+        <List>{valuesLi}</List>
       </div>
     );
   }
