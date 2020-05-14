@@ -19,9 +19,22 @@ namespace Api.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<Activity>> List() => await mediator.Send(new ActivityDetails.Request());
+        public async Task<ActionResult<List<Activity>>> List() => await mediator.Send(new ActivityList.Request());
 
         [HttpGet("{id}")]
         public async Task<ActionResult<Activity>> Details(Guid id) => await mediator.Send(new ActivityDetails.Request { Id = id });
+
+        [HttpPost]
+        public async Task<ActionResult<Unit>> Create(ActivityCreate.Request request) => await mediator.Send(request);
+
+        [HttpPut("{id}")]
+        public async Task<ActionResult<Unit>> Edit(Guid id, ActivityEdit.Request request)
+        {
+            request.Id = id;
+            return await mediator.Send(request);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<ActionResult<Unit>> Delete(Guid id) => await mediator.Send(new ActivityDelete.Request { Id = id });
     }
 }
