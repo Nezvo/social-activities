@@ -1,35 +1,29 @@
-import React, { Component } from 'react';
-import { Header, Icon, List } from 'semantic-ui-react';
+import React, { useState, useEffect, Fragment } from 'react';
+import { List, Container } from 'semantic-ui-react';
 import Axios from 'axios';
+import { IActivity } from './activity';
+import { NavBar } from '../../features/nav/NavBar';
+import ActivityDashboard from '../../features/activities/dashboard/ActivityDashboard';
 
-class App extends Component {
-  state = {
-    values: [],
-  };
+const App = () => {
+  const [activities, setActivities] = useState<IActivity[]>([]);
 
-  componentDidMount() {
-    Axios.get('http://localhost:5000/api/values').then((response) => {
-      this.setState({
-        values: response.data,
-      });
-    });
-  }
-
-  render() {
-    let valuesLi = this.state.values.map((v: any) => (
-      <List.Item key={v.id}>{v.name}</List.Item>
-    ));
-
-    return (
-      <div>
-        <Header as="h2">
-          <Icon name="users" />
-          <Header.Content>Social Activities</Header.Content>
-        </Header>
-        <List>{valuesLi}</List>
-      </div>
+  useEffect(() => {
+    Axios.get<IActivity[]>('http://localhost:5000/api/activities').then(
+      (response) => {
+        setActivities(response.data);
+      }
     );
-  }
-}
+  }, []);
+
+  return (
+    <Fragment>
+      <NavBar />
+      <Container style={{ marginTop: '7em' }}>
+        <ActivityDashboard activities={activities} />
+      </Container>
+    </Fragment>
+  );
+};
 
 export default App;
