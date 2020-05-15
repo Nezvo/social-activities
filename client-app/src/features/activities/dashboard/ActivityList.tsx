@@ -33,13 +33,13 @@ const ActivityList: React.FC<IProps> = ({
                   floated="right"
                   content="View"
                   color="blue"
-                ></Button>
+                />
                 <Button
                   onClick={() => deleteActivity(activity.id)}
                   floated="right"
                   content="Delete"
                   color="red"
-                ></Button>
+                />
                 <Label basic content={activity.category}></Label>
               </Item.Extra>
             </Item.Content>
