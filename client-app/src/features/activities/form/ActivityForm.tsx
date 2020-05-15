@@ -6,9 +6,9 @@ const ActivityForm = () => {
     <Segment>
       <Form>
         <Form.Input placeholder="title" />
-        <Form.TextArea rows='2' placeholder="description" />
+        <Form.TextArea rows="2" placeholder="description" />
         <Form.Input placeholder="category" />
-        <Form.Input type='date' placeholder="date" />
+        <Form.Input type="date" placeholder="date" />
         <Form.Input placeholder="city" />
         <Form.Input placeholder="venue" />
       </Form>
