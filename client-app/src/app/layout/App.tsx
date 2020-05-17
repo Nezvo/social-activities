@@ -1,6 +1,6 @@
 import React, { useState, useEffect, Fragment, SyntheticEvent } from 'react';
 import { Container } from 'semantic-ui-react';
-import { IActivity } from './activity';
+import { IActivity } from '../models/activity';
 import { NavBar } from '../../features/nav/NavBar';
 import ActivityDashboard from '../../features/activities/dashboard/ActivityDashboard';
 import Agent from '../api/agent';
