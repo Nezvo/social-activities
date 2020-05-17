@@ -103,7 +103,6 @@ const ActivityForm: React.FC<IProps> = ({ activity: initialFormState }) => {
         <Button
           onClick={cancelFormOpen}
           floated="right"
-          type="submit"
           content="Cancel"
         />
       </Form>
