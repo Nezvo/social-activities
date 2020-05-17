@@ -1,23 +1,21 @@
-import React, { useState, FormEvent } from 'react';
+import React, { useState, FormEvent, useContext } from 'react';
 import { Segment, Form, Button } from 'semantic-ui-react';
 import { IActivity } from '../../../app/models/activity';
 import { v4 as uuid } from 'uuid';
+import ActivityStore from '../../../app/stores/activityStore';
 
 interface IProps {
   activity: IActivity;
-  setEditMode: (editMode: boolean) => void;
-  createActivity: (activity: IActivity) => void;
-  editActivity: (activity: IActivity) => void;
-  inProgress: boolean;
 }
 
-const ActivityForm: React.FC<IProps> = ({
-  setEditMode,
-  activity: initialFormState,
-  createActivity,
-  editActivity,
-  inProgress,
-}) => {
+const ActivityForm: React.FC<IProps> = ({ activity: initialFormState }) => {
+  const activityStore = useContext(ActivityStore);
+  const {
+    createActivity,
+    editActivity,
+    submitting,
+    cancelFormOpen,
+  } = activityStore;
   const initializeForm = () => {
     if (initialFormState) return initialFormState;
     else
@@ -95,14 +93,14 @@ const ActivityForm: React.FC<IProps> = ({
           value={activity.venue}
         />
         <Button
-          loading={inProgress}
+          loading={submitting}
           floated="right"
           positive
           type="submit"
           content="submit"
         />
         <Button
-          onClick={() => setEditMode(false)}
+          onClick={cancelFormOpen}
           floated="right"
           type="submit"
           content="Cancel"
