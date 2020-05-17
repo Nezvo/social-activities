@@ -1,9 +1,10 @@
-import React, { useState, useEffect, Fragment } from 'react';
+import React, { useState, useEffect, Fragment, SyntheticEvent } from 'react';
 import { Container } from 'semantic-ui-react';
-import Axios from 'axios';
 import { IActivity } from './activity';
 import { NavBar } from '../../features/nav/NavBar';
 import ActivityDashboard from '../../features/activities/dashboard/ActivityDashboard';
+import Agent from '../api/agent';
+import LoadingComponent from './LoadingComponent';
 
 const App = () => {
   const [activities, setActivities] = useState<IActivity[]>([]);
@@ -11,6 +12,9 @@ const App = () => {
     null
   );
   const [editMode, setEditMode] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [inProgress, setInProgress] = useState(false);
+  const [target, setTarget] = useState('');
 
   const handleSelectActivity = (id: string) => {
     setSelectedActivity(activities.filter((a) => a.id === id)[0]);
@@ -18,22 +22,41 @@ const App = () => {
   };
 
   const handleCreateActivity = (activity: IActivity) => {
-    setActivities([...activities, activity]);
-    setSelectedActivity(activity);
-    setEditMode(false);
+    setInProgress(true);
+    Agent.Activities.create(activity)
+      .then(() => {
+        setActivities([...activities, activity]);
+        setSelectedActivity(activity);
+        setEditMode(false);
+      })
+      .then(() => setInProgress(false));
   };
 
   const handleEditActivity = (activity: IActivity) => {
-    setActivities([
-      ...activities.filter((a) => a.id !== activity.id),
-      activity,
-    ]);
-    setSelectedActivity(activity);
-    setEditMode(false);
+    setInProgress(true);
+    Agent.Activities.update(activity)
+      .then(() => {
+        setActivities([
+          ...activities.filter((a) => a.id !== activity.id),
+          activity,
+        ]);
+        setSelectedActivity(activity);
+        setEditMode(false);
+      })
+      .then(() => setInProgress(false));
   };
 
-  const handleDeleteActivity = (id: string) => {
-    setActivities([...activities.filter((a) => a.id !== id)]);
+  const handleDeleteActivity = (
+    event: SyntheticEvent<HTMLButtonElement>,
+    id: string
+  ) => {
+    setInProgress(true);
+    setTarget(event.currentTarget.name);
+    Agent.Activities.delete(id)
+      .then(() => {
+        setActivities([...activities.filter((a) => a.id !== id)]);
+      })
+      .then(() => setInProgress(false));
   };
 
   const handleOpenCreateForm = () => {
@@ -42,17 +65,19 @@ const App = () => {
   };
 
   useEffect(() => {
-    Axios.get<IActivity[]>('http://localhost:5000/api/activities').then(
-      (response) => {
+    Agent.Activities.list()
+      .then((response) => {
         let activities: IActivity[] = [];
-        response.data.forEach((activity) => {
+        response.forEach((activity) => {
           activity.date = activity.date.split('.')[0];
           activities.push(activity);
         });
         setActivities(activities);
-      }
-    );
+      })
+      .then(() => setLoading(false));
   }, []);
+
+  if (loading) return <LoadingComponent content="Loading activities..." />;
 
   return (
     <Fragment>
@@ -68,6 +93,8 @@ const App = () => {
           createActivity={handleCreateActivity}
           editActivity={handleEditActivity}
           deleteActivity={handleDeleteActivity}
+          inProgress={inProgress}
+          target={target}
         />
       </Container>
     </Fragment>

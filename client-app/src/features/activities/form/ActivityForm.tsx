@@ -8,6 +8,7 @@ interface IProps {
   setEditMode: (editMode: boolean) => void;
   createActivity: (activity: IActivity) => void;
   editActivity: (activity: IActivity) => void;
+  inProgress: boolean;
 }
 
 const ActivityForm: React.FC<IProps> = ({
@@ -15,6 +16,7 @@ const ActivityForm: React.FC<IProps> = ({
   activity: initialFormState,
   createActivity,
   editActivity,
+  inProgress,
 }) => {
   const initializeForm = () => {
     if (initialFormState) return initialFormState;
@@ -33,13 +35,14 @@ const ActivityForm: React.FC<IProps> = ({
   const [activity, setActivity] = useState<IActivity>(initializeForm);
 
   const handleSubmit = () => {
-    if (activity.id) editActivity(activity);
-    else {
+    if (activity.id.length === 0) {
       let newActivity = {
         ...activity,
         id: uuid(),
       };
       createActivity(newActivity);
+    } else {
+      editActivity(activity);
     }
   };
 
@@ -56,7 +59,7 @@ const ActivityForm: React.FC<IProps> = ({
         <Form.Input
           onChange={handleInputChange}
           name="title"
-          placeholder="{Title}"
+          placeholder="Title"
           value={activity.title}
         />
         <Form.TextArea
@@ -91,7 +94,13 @@ const ActivityForm: React.FC<IProps> = ({
           placeholder="Venue"
           value={activity.venue}
         />
-        <Button floated="right" positive type="submit" content="submit" />
+        <Button
+          loading={inProgress}
+          floated="right"
+          positive
+          type="submit"
+          content="submit"
+        />
         <Button
           onClick={() => setEditMode(false)}
           floated="right"
