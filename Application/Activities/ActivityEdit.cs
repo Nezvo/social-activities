@@ -41,12 +41,9 @@ namespace Application.Activities
                 activity.City = request.City ?? activity.City;
                 activity.Venue = request.Venue ?? activity.Venue;
 
-                var success = await context.SaveChangesAsync() > 0;
+                await context.SaveChangesAsync();
 
-                if (success)
-                    return Unit.Value;
-
-                throw new Exception("Problem saving changes");
+                return Unit.Value;
             }
         }
     }

@@ -42,12 +42,9 @@ namespace Application.Activities
                 };
 
                 context.Activities.Add(activity);
-                var success = await context.SaveChangesAsync() > 0;
+                await context.SaveChangesAsync();
 
-                if (success)
-                    return Unit.Value;
-
-                throw new Exception("Problem saving changes");
+                return Unit.Value;
             }
         }
     }
