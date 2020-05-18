@@ -39,7 +39,7 @@ class ActivityStore {
   };
 
   @action loadActivity = async (id: string) => {
-    let activity = this.getActivity(id);
+    let activity = this.activityRegistry.get(id);
     if (activity) {
       this.activity = activity;
     } else {
@@ -62,10 +62,6 @@ class ActivityStore {
 
   @action clearActivity = () => {
     this.activity = undefined;
-  };
-
-  getActivity = (id: string) => {
-    return this.activityRegistry.get(id);
   };
 
   @action createActivity = async (activity: IActivity) => {
@@ -122,29 +118,6 @@ class ActivityStore {
         this.target = '';
       });
     }
-  };
-
-  @action openCreateForm = () => {
-    this.editMode = true;
-    this.activity = undefined;
-  };
-
-  @action openEditForm = (id: string) => {
-    this.activity = this.activityRegistry.get(id);
-    this.editMode = true;
-  };
-
-  @action cancelSelectedActivity = () => {
-    this.activity = undefined;
-  };
-
-  @action cancelFormOpen = () => {
-    this.editMode = false;
-  };
-
-  @action selectActivity = (id: string) => {
-    this.activity = this.activityRegistry.get(id);
-    this.editMode = false;
   };
 }
 
