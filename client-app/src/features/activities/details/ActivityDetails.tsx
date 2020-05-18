@@ -17,7 +17,7 @@ const ActivityDetails: React.FC<RouteComponentProps<DetailsPrams>> = ({
   const { activity, loadActivity, loadingInitial } = activityStore;
 
   useEffect(() => {
-    loadActivity(match.params.id);
+    if (match.params.id) loadActivity(match.params.id);
   }, [loadActivity]);
 
   if (loadingInitial || !activity)

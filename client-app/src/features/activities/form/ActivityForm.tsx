@@ -21,6 +21,7 @@ const ActivityForm: React.FC<RouteComponentProps<DetailParams>> = ({
     cancelFormOpen,
     activity: initialFormState,
     loadActivity,
+    clearActivity,
   } = activityStore;
 
   const [activity, setActivity] = useState<IActivity>({
@@ -38,7 +39,9 @@ const ActivityForm: React.FC<RouteComponentProps<DetailParams>> = ({
       loadActivity(match.params.id).then(() => {
         initialFormState && setActivity(initialFormState);
       });
-  }, [loadActivity]);
+
+    return () => clearActivity();
+  }, [match.params.id, initialFormState, loadActivity, clearActivity]);
 
   const handleSubmit = () => {
     if (activity.id.length === 0) {

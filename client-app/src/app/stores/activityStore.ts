@@ -60,6 +60,10 @@ class ActivityStore {
     }
   };
 
+  @action clearActivity = () => {
+    this.activity = undefined;
+  };
+
   getActivity = (id: string) => {
     return this.activityRegistry.get(id);
   };
