@@ -42,7 +42,13 @@ const ActivityForm: React.FC<RouteComponentProps<DetailParams>> = ({
       });
 
     return () => clearActivity();
-  }, [match.params.id, initialFormState, loadActivity, clearActivity]);
+  }, [
+    match.params.id,
+    initialFormState,
+    loadActivity,
+    clearActivity,
+    activity.id,
+  ]);
 
   const handleSubmit = () => {
     if (activity.id.length === 0) {
