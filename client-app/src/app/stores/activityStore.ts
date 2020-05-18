@@ -9,7 +9,6 @@ class ActivityStore {
   @observable activityRegistry = new Map<string, IActivity>();
   @observable activity: IActivity | undefined;
   @observable loadingInitial = false;
-  @observable editMode = false;
   @observable submitting = false;
   @observable target = '';
 
@@ -70,7 +69,6 @@ class ActivityStore {
       await agent.Activities.create(activity);
       runInAction('creating activities', () => {
         this.activityRegistry.set(activity.id, activity);
-        this.editMode = false;
       });
     } catch (error) {
       console.log(error);
@@ -88,7 +86,6 @@ class ActivityStore {
       runInAction('editing activities', () => {
         this.activityRegistry.set(activity.id, activity);
         this.activity = activity;
-        this.editMode = false;
       });
     } catch (error) {
       console.log(error);
