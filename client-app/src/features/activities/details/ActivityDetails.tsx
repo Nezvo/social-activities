@@ -9,11 +9,11 @@ import ActivityDetailChat from './ActivityDetailChat';
 import ActivityDetailSidebar from './ActivityDetailSidebar';
 import { Grid } from 'semantic-ui-react';
 
-interface DetailsPrams {
+interface DetailParams {
   id: string;
 }
 
-const ActivityDetails: React.FC<RouteComponentProps<DetailsPrams>> = ({
+const ActivityDetails: React.FC<RouteComponentProps<DetailParams>> = ({
   match,
 }) => {
   const activityStore = useContext(ActivityStore);
