@@ -7,7 +7,7 @@ interface IProps {
   activity: IActivity;
 }
 
-const ActivityListItem: React.FC<{ activity: IActivity }> = ({ activity }) => {
+const ActivityListItem: React.FC<IProps> = ({ activity }) => {
   return (
     <Segment.Group>
       <Segment>

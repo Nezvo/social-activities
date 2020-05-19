@@ -15,7 +15,6 @@ interface DetailsPrams {
 
 const ActivityDetails: React.FC<RouteComponentProps<DetailsPrams>> = ({
   match,
-  history,
 }) => {
   const activityStore = useContext(ActivityStore);
   const { activity, loadActivity, loadingInitial } = activityStore;
