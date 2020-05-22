@@ -1,6 +1,6 @@
 import React, { useState, FormEvent, useContext, useEffect } from 'react';
 import { Segment, Form, Button, Grid } from 'semantic-ui-react';
-import { IActivity } from '../../../app/models/activity';
+import { IActivityFormValues } from '../../../app/models/activity';
 import { v4 as uuid } from 'uuid';
 import ActivityStore from '../../../app/stores/activityStore';
 import { observer } from 'mobx-react-lite';
@@ -10,6 +10,8 @@ import TextInput from '../../../app/common/form/TextInput';
 import TextAreaInput from '../../../app/common/form/TextAreaInput';
 import SelectInput from '../../../app/common/form/SelectInput';
 import { categories } from '../../../app/common/options/categories';
+import DateInput from '../../../app/common/form/DateInput';
+import { combineDateAndTime } from '../../../app/common/util/util';
 
 interface DetailParams {
   id: string;
@@ -29,18 +31,19 @@ const ActivityForm: React.FC<RouteComponentProps<DetailParams>> = ({
     clearActivity,
   } = activityStore;
 
-  const [activity, setActivity] = useState<IActivity>({
-    id: '',
+  const [activity, setActivity] = useState<IActivityFormValues>({
+    id: undefined,
     title: '',
     category: '',
     description: '',
-    date: '',
+    date: undefined,
+    time: undefined,
     city: '',
     venue: '',
   });
 
   useEffect(() => {
-    if (match.params.id && !activity.id)
+    if (match.params.id && activity.id)
       loadActivity(match.params.id).then(() => {
         initialFormState && setActivity(initialFormState);
       });
@@ -71,7 +74,10 @@ const ActivityForm: React.FC<RouteComponentProps<DetailParams>> = ({
   // };
 
   const handleFinalFormSubmit = (values: any) => {
-    console.log(values);
+    const dateAndTime = combineDateAndTime(values.date, values.time);
+    const { date, time, ...activity } = values;
+    activity.date = dateAndTime;
+    console.log(activity);
   };
 
   const handleInputChange = (
@@ -109,13 +115,22 @@ const ActivityForm: React.FC<RouteComponentProps<DetailParams>> = ({
                   options={categories}
                   component={SelectInput}
                 />
-                <Field
-                  name="date"
-                  type="datetime-local"
-                  placeholder="Date"
-                  value={activity.date}
-                  component={TextInput}
-                />
+                <Form.Group widths="equal">
+                  <Field
+                    component={DateInput}
+                    name="date"
+                    date={true}
+                    placeholder="Date"
+                    value={activity.date}
+                  />
+                  <Field
+                    component={DateInput}
+                    name="time"
+                    time={true}
+                    placeholder="Time"
+                    value={activity.time}
+                  />
+                </Form.Group>
                 <Field
                   name="city"
                   placeholder="City"
