@@ -137,7 +137,11 @@ const ActivityForm: React.FC<RouteComponentProps<DetailParams>> = ({
                   disabled={loading}
                 />
                 <Button
-                  onClick={() => history.push('/activities')}
+                  onClick={() =>
+                    activity.id
+                      ? history.push(`/activities/${activity.id}`)
+                      : history.push('/activities')
+                  }
                   floated="right"
                   type="button"
                   content="Cancel"
