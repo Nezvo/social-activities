@@ -10,5 +10,8 @@ namespace Api.Controllers
     {
         [HttpPost("login")]
         public async Task<ActionResult<User>> Login(Login.Request request) => await Mediator.Send(request);
+
+        [HttpPost("register")]
+        public async Task<ActionResult<User>> Register(Register.Request request) => await Mediator.Send(request);
     }
 }
