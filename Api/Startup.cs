@@ -7,9 +7,11 @@ using FluentValidation.AspNetCore;
 using Infrastructure.Security;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -45,7 +47,11 @@ namespace Api
                 });
             });
             services.AddMediatR(typeof(ActivityList.Handler).Assembly); // We only need to pass one assembly to the MediatR
-            services.AddControllers().AddFluentValidation(cfg =>
+            services.AddControllers(opt =>
+            {
+                var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
+                opt.Filters.Add(new AuthorizeFilter(policy));
+            }).AddFluentValidation(cfg =>
             {
                 // Registers all validators derived from AbstractValidator within the assembly containing
                 // the specified type

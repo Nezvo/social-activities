@@ -15,7 +15,6 @@ namespace Api.Controllers
         public async Task<ActionResult<List<Activity>>> List() => await Mediator.Send(new ActivityList.Request());
 
         [HttpGet("{id}")]
-        [Authorize]
         public async Task<ActionResult<Activity>> Details(Guid id) => await Mediator.Send(new ActivityDetails.Request { Id = id });
 
         [HttpPost]
