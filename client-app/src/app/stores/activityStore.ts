@@ -45,7 +45,7 @@ class ActivityStore {
         });
       });
     } catch (error) {
-      console.log(error);
+      console.log(error.response);
     } finally {
       runInAction('load activities finally', () => {
         this.loadingInitial = false;
@@ -65,10 +65,11 @@ class ActivityStore {
         runInAction('get activity', () => {
           activity!.date = new Date(activity!.date);
           this.activity = activity;
+          this.activityRegistry.set(activity!.id, activity!);
           this.loadingInitial = false;
         });
       } catch (error) {
-        console.log(error);
+        console.log(error.response);
       } finally {
         runInAction('get activity finally', () => {
           this.loadingInitial = false;
@@ -91,7 +92,7 @@ class ActivityStore {
       });
       history.push(`/activities/${activity.id}`);
     } catch (error) {
-      console.log(error);
+      console.log(error.response);
     } finally {
       runInAction('creting activities finally', () => {
         this.submitting = false;
@@ -109,7 +110,7 @@ class ActivityStore {
       });
       history.push(`/activities/${activity.id}`);
     } catch (error) {
-      console.log(error);
+      console.log(error.response);
     } finally {
       runInAction('editing activities finally', () => {
         this.submitting = false;
@@ -129,7 +130,7 @@ class ActivityStore {
         this.activityRegistry.delete(id);
       });
     } catch (error) {
-      console.log(error);
+      console.log(error.response);
     } finally {
       runInAction('deleting activities finally', () => {
         this.submitting = false;
