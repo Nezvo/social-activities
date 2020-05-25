@@ -1,9 +1,11 @@
 using Api.Middleware;
 using Application.Activities;
+using Domain;
 using FluentValidation.AspNetCore;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -28,12 +30,6 @@ namespace Api
             {
                 opt.UseSqlite(Configuration.GetConnectionString("DefaultConnection"));
             });
-            services.AddControllers().AddFluentValidation(cfg =>
-            {
-                // Registers all validators derived from AbstractValidator within the assembly containing
-                // the specified type
-                cfg.RegisterValidatorsFromAssemblyContaining<ActivityCreate>();
-            });
             services.AddCors(opt =>
             {
                 opt.AddPolicy("CorsPolicy", policy =>
@@ -44,6 +40,16 @@ namespace Api
                 });
             });
             services.AddMediatR(typeof(ActivityList.Handler).Assembly); // We only need to pass one assembly to the MediatR
+            services.AddControllers().AddFluentValidation(cfg =>
+            {
+                // Registers all validators derived from AbstractValidator within the assembly containing
+                // the specified type
+                cfg.RegisterValidatorsFromAssemblyContaining<ActivityCreate>();
+            });
+            var builder = services.AddIdentityCore<AppUser>();
+            var identityBuilder = new IdentityBuilder(builder.UserType, builder.Services);
+            identityBuilder.AddEntityFrameworkStores<DataContext>();
+            identityBuilder.AddSignInManager<SignInManager<AppUser>>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
