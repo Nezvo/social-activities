@@ -32,9 +32,12 @@ namespace Application.Activities
 
                 context.Remove(activity);
 
-                await context.SaveChangesAsync();
+                var success = await context.SaveChangesAsync() > 0;
 
-                return Unit.Value;
+                if (success)
+                    return Unit.Value;
+
+                throw new Exception("Problem saving changes");
             }
         }
     }

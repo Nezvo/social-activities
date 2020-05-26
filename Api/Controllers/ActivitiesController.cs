@@ -27,5 +27,8 @@ namespace Api.Controllers
 
         [HttpDelete("{id}")]
         public async Task<ActionResult<Unit>> Delete(Guid id) => await Mediator.Send(new ActivityDelete.Request { Id = id });
+
+        [HttpPost("{id}/attend")]
+        public async Task<ActionResult<Unit>> Attend(Guid id) => await Mediator.Send(new ActivityAttend.Request { Id = id });
     }
 }
