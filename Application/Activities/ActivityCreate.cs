@@ -1,9 +1,11 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Application.Interfaces;
 using Domain;
 using FluentValidation;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Persistence;
 
 namespace Application.Activities
@@ -37,8 +39,11 @@ namespace Application.Activities
         public class Handler : IRequestHandler<Request>
         {
             private readonly DataContext context;
-            public Handler(DataContext context)
+            private readonly IUserAccessor userAccessor;
+
+            public Handler(DataContext context, IUserAccessor userAccessor)
             {
+                this.userAccessor = userAccessor;
                 this.context = context;
             }
 
@@ -56,6 +61,19 @@ namespace Application.Activities
                 };
 
                 context.Activities.Add(activity);
+
+                var user = await context.Users.SingleOrDefaultAsync(x => x.UserName == userAccessor.GetCurrentUsername());
+
+                var attendee = new UserActivity
+                {
+                    AppUser = user,
+                    Activity = activity,
+                    IsHost = true,
+                    DateJoined = DateTime.Now
+                };
+
+                context.UserActivities.Add(attendee);
+
                 await context.SaveChangesAsync();
 
                 return Unit.Value;
