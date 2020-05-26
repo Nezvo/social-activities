@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Application.Activities;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers
@@ -19,6 +20,7 @@ namespace Api.Controllers
         public async Task<ActionResult<Unit>> Create(ActivityCreate.Request request) => await Mediator.Send(request);
 
         [HttpPut("{id}")]
+        [Authorize(Policy = "IsActivityHost")]
         public async Task<ActionResult<Unit>> Edit(Guid id, ActivityEdit.Request request)
         {
             request.Id = id;
@@ -26,6 +28,7 @@ namespace Api.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Policy = "IsActivityHost")]
         public async Task<ActionResult<Unit>> Delete(Guid id) => await Mediator.Send(new ActivityDelete.Request { Id = id });
 
         [HttpPost("{id}/attend")]
