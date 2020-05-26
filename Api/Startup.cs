@@ -18,6 +18,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Persistence;
+using AutoMapper;
 
 namespace Api
 {
@@ -47,6 +48,7 @@ namespace Api
                 });
             });
             services.AddMediatR(typeof(ActivityList.Handler).Assembly); // We only need to pass one assembly to the MediatR
+            services.AddAutoMapper(typeof(ActivityList.Handler));
             services.AddControllers(opt =>
             {
                 var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
