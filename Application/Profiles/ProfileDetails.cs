@@ -18,6 +18,7 @@ namespace Application.Profiles
         public class Handler : IRequestHandler<Request, Profile>
         {
             private readonly DataContext context;
+
             public Handler(DataContext context)
             {
                 this.context = context;
