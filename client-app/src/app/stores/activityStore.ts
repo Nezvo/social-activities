@@ -15,7 +15,7 @@ export default class ActivityStore {
   }
 
   @observable activityRegistry = new Map<string, IActivity>();
-  @observable activity: IActivity | undefined;
+  @observable activity: IActivity | null = null;
   @observable loadingInitial = false;
   @observable submitting = false;
   @observable target = '';
@@ -73,7 +73,7 @@ export default class ActivityStore {
         activity = await agent.Activities.details(id);
         runInAction('get activity', () => {
           setActivityProps(activity!, this.rootStore.userStore.user!);
-          this.activity = activity;
+          this.activity = activity!;
           this.activityRegistry.set(activity!.id, activity!);
           this.loadingInitial = false;
         });
@@ -90,7 +90,7 @@ export default class ActivityStore {
   };
 
   @action clearActivity = () => {
-    this.activity = undefined;
+    this.activity = null;
   };
 
   @action createActivity = async (activity: IActivity) => {

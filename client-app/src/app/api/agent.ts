@@ -71,7 +71,13 @@ const User = {
     requests.post('/user/register', user),
 };
 
+const Profiles = {
+  get: (username: string): Promise<IProfile> =>
+    requests.get(`/profiles/${username}`),
+};
+
 export default {
   Activities,
   User,
+  Profiles,
 };
