@@ -9,9 +9,9 @@ namespace Application.User
 {
     public class CurrentUser
     {
-        public class Request : IRequest<User> { }
+        public class Query : IRequest<User> { }
 
-        public class Handler : IRequestHandler<Request, User>
+        public class Handler : IRequestHandler<Query, User>
         {
             private readonly UserManager<AppUser> userManager;
             private readonly IJwtGenerator jwtGenerator;
@@ -24,7 +24,7 @@ namespace Application.User
                 this.userManager = userManager;
             }
 
-            public async Task<User> Handle(Request request, CancellationToken cancellationToken)
+            public async Task<User> Handle(Query request, CancellationToken cancellationToken)
             {
                 var user = await userManager.FindByNameAsync(userAccessor.GetCurrentUsername());
 

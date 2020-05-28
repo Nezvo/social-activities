@@ -12,12 +12,12 @@ namespace Application.Activities
 {
     public class ActivityDetails
     {
-        public class Request : IRequest<ActivityDto>
+        public class Query : IRequest<ActivityDto>
         {
             public Guid Id { get; set; }
         }
 
-        public class Handler : IRequestHandler<Request, ActivityDto>
+        public class Handler : IRequestHandler<Query, ActivityDto>
         {
             private readonly DataContext context;
             private readonly IMapper mapper;
@@ -28,7 +28,7 @@ namespace Application.Activities
                 this.context = context;
             }
 
-            public async Task<ActivityDto> Handle(Request request, CancellationToken cancellationToken)
+            public async Task<ActivityDto> Handle(Query request, CancellationToken cancellationToken)
             {
                 var activity = await context.Activities.FindAsync(request.Id);
 

@@ -12,7 +12,7 @@ namespace Application.Activities
 {
     public class ActivityCreate
     {
-        public class Request : IRequest
+        public class Command : IRequest
         {
             public Guid Id { get; set; }
             public string Title { get; set; }
@@ -23,7 +23,7 @@ namespace Application.Activities
             public string Venue { get; set; }
         }
 
-        public class CommandValidator : AbstractValidator<Request>
+        public class CommandValidator : AbstractValidator<Command>
         {
             public CommandValidator()
             {
@@ -36,7 +36,7 @@ namespace Application.Activities
             }
         }
 
-        public class Handler : IRequestHandler<Request>
+        public class Handler : IRequestHandler<Command>
         {
             private readonly DataContext context;
             private readonly IUserAccessor userAccessor;
@@ -47,7 +47,7 @@ namespace Application.Activities
                 this.context = context;
             }
 
-            public async Task<Unit> Handle(Request request, CancellationToken cancellationToken)
+            public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
                 var activity = new Activity
                 {

@@ -13,12 +13,12 @@ namespace Application.Photos
 {
     public class PhotoDelete
     {
-        public class Request : IRequest
+        public class Command : IRequest
         {
             public string Id { get; set; }
         }
 
-        public class Handler : IRequestHandler<Request>
+        public class Handler : IRequestHandler<Command>
         {
             private readonly DataContext context;
             private readonly IUserAccessor userAccessor;
@@ -31,7 +31,7 @@ namespace Application.Photos
                 this.context = context;
             }
 
-            public async Task<Unit> Handle(Request request, CancellationToken cancellationToken)
+            public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
                 var user = await context.Users.SingleOrDefaultAsync(x => x.UserName == userAccessor.GetCurrentUsername());
 

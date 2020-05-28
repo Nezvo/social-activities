@@ -7,6 +7,6 @@ namespace Api.Controllers
     public class ProfilesController : BaseController
     {
         [HttpGet("{username}")]
-        public async Task<ActionResult<Profile>> Get(string userName) => await Mediator.Send(new ProfileDetails.Request { UserName = userName });
+        public async Task<ActionResult<Profile>> Get(string userName) => await Mediator.Send(new ProfileDetails.Query { UserName = userName });
     }
 }

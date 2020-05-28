@@ -9,13 +9,13 @@ namespace Api.Controllers
     {
         [AllowAnonymous]
         [HttpPost("login")]
-        public async Task<ActionResult<User>> Login(Login.Request request) => await Mediator.Send(request);
+        public async Task<ActionResult<User>> Login(Login.Query request) => await Mediator.Send(request);
 
         [AllowAnonymous]
         [HttpPost("register")]
-        public async Task<ActionResult<User>> Register(Register.Request request) => await Mediator.Send(request);
+        public async Task<ActionResult<User>> Register(Register.Command request) => await Mediator.Send(request);
 
         [HttpGet]
-        public async Task<ActionResult<User>> CurrentUser() => await Mediator.Send(new CurrentUser.Request());
+        public async Task<ActionResult<User>> CurrentUser() => await Mediator.Send(new CurrentUser.Query());
     }
 }

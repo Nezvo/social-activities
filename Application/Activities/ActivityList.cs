@@ -11,9 +11,9 @@ namespace Application.Activities
 {
     public class ActivityList
     {
-        public class Request : IRequest<List<ActivityDto>> { }
+        public class Query : IRequest<List<ActivityDto>> { }
 
-        public class Handler : IRequestHandler<Request, List<ActivityDto>>
+        public class Handler : IRequestHandler<Query, List<ActivityDto>>
         {
             private readonly DataContext context;
             private readonly IMapper mapper;
@@ -23,7 +23,7 @@ namespace Application.Activities
                 this.context = context;
             }
 
-            public async Task<List<ActivityDto>> Handle(Request request, CancellationToken cancellationToken)
+            public async Task<List<ActivityDto>> Handle(Query request, CancellationToken cancellationToken)
             {
                 var activities = await context.Activities.ToListAsync();
 

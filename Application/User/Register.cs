@@ -17,7 +17,7 @@ namespace Application.User
 {
     public class Register
     {
-        public class Request : IRequest<User>
+        public class Command : IRequest<User>
         {
             public string DisplayName { get; set; }
             public string UserName { get; set; }
@@ -25,7 +25,7 @@ namespace Application.User
             public string Password { get; set; }
         }
 
-        public class RequestValidator : AbstractValidator<Request>
+        public class RequestValidator : AbstractValidator<Command>
         {
             public RequestValidator()
             {
@@ -36,7 +36,7 @@ namespace Application.User
             }
         }
 
-        public class Handler : IRequestHandler<Request, User>
+        public class Handler : IRequestHandler<Command, User>
         {
             private readonly DataContext context;
             private readonly UserManager<AppUser> userManager;
@@ -49,7 +49,7 @@ namespace Application.User
                 this.jwtGenerator = jwtGenerator;
             }
 
-            public async Task<User> Handle(Request request, CancellationToken cancellationToken)
+            public async Task<User> Handle(Command request, CancellationToken cancellationToken)
             {
                 if (await context.Users.AnyAsync(x => x.Email == request.Email))
                     throw new RestException(HttpStatusCode.BadRequest, new { Email = "Email already exists" });

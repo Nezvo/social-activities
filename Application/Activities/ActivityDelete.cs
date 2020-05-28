@@ -10,12 +10,12 @@ namespace Application.Activities
 {
     public class ActivityDelete
     {
-        public class Request : IRequest
+        public class Command : IRequest
         {
             public Guid Id { get; set; }
         }
 
-        public class Handler : IRequestHandler<Request>
+        public class Handler : IRequestHandler<Command>
         {
             private readonly DataContext context;
             public Handler(DataContext context)
@@ -23,7 +23,7 @@ namespace Application.Activities
                 this.context = context;
             }
 
-            public async Task<Unit> Handle(Request request, CancellationToken cancellationToken)
+            public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
                 var activity = await context.Activities.FindAsync(request.Id);
 
