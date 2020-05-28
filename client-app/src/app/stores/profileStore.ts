@@ -32,6 +32,7 @@ export default class ProfileStore {
       });
     } catch (error) {
       console.log(error);
+      toast.error('Problem loading profile');
     } finally {
       runInAction(() => {
         this.loadingProfile = false;
