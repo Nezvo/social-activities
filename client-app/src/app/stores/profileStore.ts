@@ -74,6 +74,7 @@ export default class ProfileStore {
         this.profile!.image = photo.url;
       });
     } catch (error) {
+      console.log(error);
       toast.error('Problem setting photo as main');
     } finally {
       runInAction(() => {
@@ -92,6 +93,7 @@ export default class ProfileStore {
         );
       });
     } catch (error) {
+      console.log(error);
       toast.error('Problem deleting the photo');
     } finally {
       runInAction(() => {

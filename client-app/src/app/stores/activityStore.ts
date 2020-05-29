@@ -53,7 +53,7 @@ export default class ActivityStore {
         });
       });
     } catch (error) {
-      console.log(error.response);
+      console.log(error);
       toast.error('Problem with loading activities');
     } finally {
       runInAction('load activities finally', () => {
@@ -78,7 +78,7 @@ export default class ActivityStore {
           this.loadingInitial = false;
         });
       } catch (error) {
-        console.log(error.response);
+        console.log(error);
         toast.error('Problem with loading activity');
       } finally {
         runInAction('get activity finally', () => {
@@ -108,7 +108,7 @@ export default class ActivityStore {
       });
       history.push(`/activities/${activity.id}`);
     } catch (error) {
-      console.log(error.response);
+      console.log(error);
       toast.error('Problem submitting data');
     } finally {
       runInAction('creting activities finally', () => {
@@ -127,7 +127,7 @@ export default class ActivityStore {
       });
       history.push(`/activities/${activity.id}`);
     } catch (error) {
-      console.log(error.response);
+      console.log(error);
       toast.error('Problem submitting data');
     } finally {
       runInAction('editing activities finally', () => {
@@ -148,7 +148,7 @@ export default class ActivityStore {
         this.activityRegistry.delete(id);
       });
     } catch (error) {
-      console.log(error.response);
+      console.log(error);
       toast.error('Problem with deleting activity');
     } finally {
       runInAction('deleting activities finally', () => {
@@ -171,7 +171,7 @@ export default class ActivityStore {
         }
       });
     } catch (error) {
-      console.log(error.response);
+      console.log(error);
       toast.error('Problem with signing up to activity');
     } finally {
       runInAction('attending activity finally', () => {
@@ -194,7 +194,7 @@ export default class ActivityStore {
         }
       });
     } catch (error) {
-      console.log(error.response);
+      console.log(error);
       toast.error('Problem with cancelling attendance');
     } finally {
       runInAction('cancelling attandance finally', () => {
