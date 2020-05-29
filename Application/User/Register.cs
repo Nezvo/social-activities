@@ -25,9 +25,9 @@ namespace Application.User
             public string Password { get; set; }
         }
 
-        public class RequestValidator : AbstractValidator<Command>
+        public class CommandValidator : AbstractValidator<Command>
         {
-            public RequestValidator()
+            public CommandValidator()
             {
                 RuleFor(x => x.DisplayName).NotEmpty();
                 RuleFor(x => x.UserName).NotEmpty();

@@ -19,9 +19,9 @@ namespace Application.User
             public string Password { get; set; }
         }
 
-        public class RequestValidator : AbstractValidator<Query>
+        public class QueryValidator : AbstractValidator<Query>
         {
-            public RequestValidator()
+            public QueryValidator()
             {
                 RuleFor(x => x.Email).NotEmpty();
                 RuleFor(x => x.Password).NotEmpty();
