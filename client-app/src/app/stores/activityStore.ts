@@ -40,12 +40,23 @@ export default class ActivityStore {
       .then(() => console.log(this.hubConnection?.state))
       .catch((error) => console.log('Error establishing connection', error));
 
-      this.hubConnection.on('RecieveComment', (comment) => {
+    this.hubConnection.on('RecieveComment', (comment) => {
+      runInAction('Adding comment', () => {
         this.activity!.comments.push(comment);
       });
+    });
   };
 
   @action stopHubConnection = () => this.hubConnection?.stop();
+
+  @action addComment = async (values: any) => {
+    values.activityId = this.activity?.id;
+    try {
+      await this.hubConnection?.invoke('SendComment', values);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   @computed get activitiesByDate() {
     return this.groupActivitiesByDate(
