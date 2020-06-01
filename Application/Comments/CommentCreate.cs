@@ -11,13 +11,13 @@ using Persistence;
 
 namespace Application.Comments
 {
-    public class Create
+    public class CommentCreate
     {
         public class Command : IRequest<CommentDto>
         {
             public string Body { get; set; }
             public Guid ActivityId { get; set; }
-            public string Username { get; set; }
+            public string UserName { get; set; }
         }
 
         public class Handler : IRequestHandler<Command, CommentDto>
@@ -37,7 +37,7 @@ namespace Application.Comments
                 if (activity == null)
                     throw new RestException(HttpStatusCode.NotFound, new { Activity = "Not found" });
 
-                var user = await context.Users.SingleOrDefaultAsync(x => x.UserName == request.Username);
+                var user = await context.Users.SingleOrDefaultAsync(x => x.UserName == request.UserName);
 
                 var comment = new Comment
                 {
