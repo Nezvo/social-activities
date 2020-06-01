@@ -48,7 +48,8 @@ namespace Api
                 {
                     policy.AllowAnyHeader()
                     .AllowAnyMethod()
-                    .WithOrigins("http://localhost:3000");
+                    .WithOrigins("http://localhost:3000")
+                    .AllowCredentials();
                 });
             });
             services.AddMediatR(typeof(ActivityList.Handler).Assembly); // We only need to pass one assembly to the MediatR
