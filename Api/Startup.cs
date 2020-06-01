@@ -20,6 +20,8 @@ using Microsoft.IdentityModel.Tokens;
 using Persistence;
 using AutoMapper;
 using Infrastructure.Photos;
+using Api.SignalR;
+using System.Threading.Tasks;
 
 namespace Api
 {
@@ -51,6 +53,7 @@ namespace Api
             });
             services.AddMediatR(typeof(ActivityList.Handler).Assembly); // We only need to pass one assembly to the MediatR
             services.AddAutoMapper(typeof(ActivityList.Handler));
+            services.AddSignalR();
             services.AddControllers(opt =>
             {
                 var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
@@ -87,6 +90,22 @@ namespace Api
                         ValidateAudience = false,
                         ValidateIssuer = false
                     };
+                    opt.Events = new JwtBearerEvents
+                    {
+                        OnMessageReceived = context =>
+                        {
+                            var accessToken = context.Request.Query["access_token"];
+                            var path = context.HttpContext.Request.Path;
+
+                            if (!string.IsNullOrEmpty(accessToken)
+                                && path.StartsWithSegments("/chat"))
+                            {
+                                context.Token = accessToken;
+                            }
+
+                            return Task.CompletedTask;
+                        }
+                    };
                 });
 
 
@@ -117,6 +136,7 @@ namespace Api
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHub<ChatHub>("/chat");
             });
         }
     }
