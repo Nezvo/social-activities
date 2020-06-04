@@ -9,17 +9,17 @@ export default class ProfileStore {
   constructor(rootStore: RootStore) {
     this.rootStore = rootStore;
 
-    // reaction(
-    //   () => this.activeTab,
-    //   (activeTab) => {
-    //     if (activeTab === 3 || activeTab === 4) {
-    //       const predicate = activeTab === 3 ? 'followers' : 'followings';
-    //       this.loadFollowings(predicate);
-    //     } else {
-    //       this.followings = [];
-    //     }
-    //   }
-    // );
+    reaction(
+      () => this.activeTab,
+      (activeTab) => {
+        if (activeTab === 3 || activeTab === 4) {
+          const predicate = activeTab === 3 ? 'followers' : 'followings';
+          this.loadFollowings(predicate);
+        } else {
+          this.followings = [];
+        }
+      }
+    );
   }
 
   @observable profile: IProfile | null = null;
