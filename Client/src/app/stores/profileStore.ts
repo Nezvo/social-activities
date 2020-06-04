@@ -123,4 +123,40 @@ export default class ProfileStore {
       });
     }
   };
+
+  @action follow = async (userName: string) => {
+    this.loading = true;
+    try {
+      await agent.Profiles.follow(userName);
+      runInAction(() => {
+        this.profile!.following = true;
+        this.profile!.followersCount++;
+      });
+    } catch (error) {
+      console.log(error);
+      toast.error('Problem following user');
+    } finally {
+      runInAction(() => {
+        this.loading = false;
+      });
+    }
+  };
+
+  @action unfollow = async (userName: string) => {
+    this.loading = true;
+    try {
+      await agent.Profiles.unfollow(userName);
+      runInAction(() => {
+        this.profile!.following = false;
+        this.profile!.followersCount--;
+      });
+    } catch (error) {
+      console.log(error);
+      toast.error('Problem unfollowing user');
+    } finally {
+      runInAction(() => {
+        this.loading = false;
+      });
+    }
+  };
 }
