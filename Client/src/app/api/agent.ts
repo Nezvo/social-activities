@@ -91,6 +91,8 @@ const Profiles = {
     requests.post(`/profiles/${userName}/follow`, {}),
   unfollow: (userName: string) =>
     requests.delete(`/profiles/${userName}/follow`),
+  listFollowings: (username: string, predicate: string) =>
+    requests.get(`/profiles/${username}/follow?predicate=${predicate}`),
 };
 
 export default {

@@ -49,7 +49,7 @@ namespace Application.Followers
                             }
                             break;
                         }
-                    case "following":
+                    case "followings":
                         {
                             userFollowings = await queryable.Where(x => x.Observer.UserName == request.UserName).ToListAsync();
 
