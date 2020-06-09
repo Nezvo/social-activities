@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -11,9 +12,20 @@ namespace Application.Activities
 {
     public class ActivityList
     {
-        public class Query : IRequest<List<ActivityDto>> { }
+        public class Query : IRequest<ActivitiesEnvelope>
+        {
+            public Query(int? limit, int? offset)
+            {
+                this.Limit = limit;
+                this.Offset = offset;
 
-        public class Handler : IRequestHandler<Query, List<ActivityDto>>
+            }
+
+            public int? Limit { get; set; }
+            public int? Offset { get; set; }
+        }
+
+        public class Handler : IRequestHandler<Query, ActivitiesEnvelope>
         {
             private readonly DataContext context;
             private readonly IMapper mapper;
@@ -23,11 +35,20 @@ namespace Application.Activities
                 this.context = context;
             }
 
-            public async Task<List<ActivityDto>> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<ActivitiesEnvelope> Handle(Query request, CancellationToken cancellationToken)
             {
-                var activities = await context.Activities.ToListAsync();
+                var queryable = context.Activities.AsQueryable();
 
-                return mapper.Map<List<Activity>, List<ActivityDto>>(activities);
+                var activities = await queryable
+                    .Skip(request.Offset.GetValueOrDefault(0))
+                    .Take(request.Limit.GetValueOrDefault(3))
+                    .ToListAsync();
+
+                return new ActivitiesEnvelope
+                {
+                    Activities = mapper.Map<List<Activity>, List<ActivityDto>>(activities),
+                    ActivityCount = queryable.Count()
+                };
             }
         }
     }
