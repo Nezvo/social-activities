@@ -60,10 +60,8 @@ const requests = {
 };
 
 const Activities = {
-  list: (limit?: number, page?: number): Promise<IActivitiesEnvelope> =>
-    requests.get(
-      `/activities?limit=${limit}&offset=${page ? page * limit! : 0}`
-    ),
+  list: (params: URLSearchParams): Promise<IActivitiesEnvelope> =>
+    Axios.get('/activities', { params: params }).then(responseBody),
   details: (id: string): Promise<IActivity> =>
     requests.get(`/activities/${id}`),
   create: (activity: IActivity) => requests.post('/activities', activity),
