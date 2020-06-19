@@ -21,26 +21,19 @@ namespace Persistence.Migrations
             modelBuilder.Entity("Domain.Activity", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
+                        .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Category")
-                        .HasColumnType("TEXT");
+                    b.Property<string>("Category");
 
-                    b.Property<string>("City")
-                        .HasColumnType("TEXT");
+                    b.Property<string>("City");
 
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("TEXT");
+                    b.Property<DateTime>("Date");
 
-                    b.Property<string>("Description")
-                        .HasColumnType("TEXT");
+                    b.Property<string>("Description");
 
-                    b.Property<string>("Title")
-                        .HasColumnType("TEXT");
+                    b.Property<string>("Title");
 
-                    b.Property<string>("Venue")
-                        .HasColumnType("TEXT");
+                    b.Property<string>("Venue");
 
                     b.HasKey("Id");
 
@@ -49,60 +42,43 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.AppUser", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("TEXT");
+                    b.Property<string>("Id");
 
-                    b.Property<int>("AccessFailedCount")
-                        .HasColumnType("INTEGER");
+                    b.Property<int>("AccessFailedCount");
 
-                    b.Property<string>("Bio")
-                        .HasColumnType("TEXT");
+                    b.Property<string>("Bio");
 
                     b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken()
-                        .HasColumnType("TEXT");
+                        .IsConcurrencyToken();
 
-                    b.Property<string>("DisplayName")
-                        .HasColumnType("TEXT");
+                    b.Property<string>("DisplayName");
 
                     b.Property<string>("Email")
-                        .HasColumnType("TEXT")
                         .HasMaxLength(256);
 
-                    b.Property<bool>("EmailConfirmed")
-                        .HasColumnType("INTEGER");
+                    b.Property<bool>("EmailConfirmed");
 
-                    b.Property<bool>("LockoutEnabled")
-                        .HasColumnType("INTEGER");
+                    b.Property<bool>("LockoutEnabled");
 
-                    b.Property<DateTimeOffset?>("LockoutEnd")
-                        .HasColumnType("TEXT");
+                    b.Property<DateTimeOffset?>("LockoutEnd");
 
                     b.Property<string>("NormalizedEmail")
-                        .HasColumnType("TEXT")
                         .HasMaxLength(256);
 
                     b.Property<string>("NormalizedUserName")
-                        .HasColumnType("TEXT")
                         .HasMaxLength(256);
 
-                    b.Property<string>("PasswordHash")
-                        .HasColumnType("TEXT");
+                    b.Property<string>("PasswordHash");
 
-                    b.Property<string>("PhoneNumber")
-                        .HasColumnType("TEXT");
+                    b.Property<string>("PhoneNumber");
 
-                    b.Property<bool>("PhoneNumberConfirmed")
-                        .HasColumnType("INTEGER");
+                    b.Property<bool>("PhoneNumberConfirmed");
 
-                    b.Property<string>("SecurityStamp")
-                        .HasColumnType("TEXT");
+                    b.Property<string>("SecurityStamp");
 
-                    b.Property<bool>("TwoFactorEnabled")
-                        .HasColumnType("INTEGER");
+                    b.Property<bool>("TwoFactorEnabled");
 
                     b.Property<string>("UserName")
-                        .HasColumnType("TEXT")
                         .HasMaxLength(256);
 
                     b.HasKey("Id");
@@ -120,20 +96,15 @@ namespace Persistence.Migrations
             modelBuilder.Entity("Domain.Comment", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
+                        .ValueGeneratedOnAdd();
 
-                    b.Property<Guid?>("ActivityId")
-                        .HasColumnType("TEXT");
+                    b.Property<Guid?>("ActivityId");
 
-                    b.Property<string>("AuthorId")
-                        .HasColumnType("TEXT");
+                    b.Property<string>("AuthorId");
 
-                    b.Property<string>("Body")
-                        .HasColumnType("TEXT");
+                    b.Property<string>("Body");
 
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("TEXT");
+                    b.Property<DateTime>("CreatedAt");
 
                     b.HasKey("Id");
 
@@ -146,17 +117,13 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.Photo", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("TEXT");
+                    b.Property<string>("Id");
 
-                    b.Property<string>("AppUserId")
-                        .HasColumnType("TEXT");
+                    b.Property<string>("AppUserId");
 
-                    b.Property<bool>("IsMain")
-                        .HasColumnType("INTEGER");
+                    b.Property<bool>("IsMain");
 
-                    b.Property<string>("Url")
-                        .HasColumnType("TEXT");
+                    b.Property<string>("Url");
 
                     b.HasKey("Id");
 
@@ -167,17 +134,13 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.UserActivity", b =>
                 {
-                    b.Property<string>("AppUserId")
-                        .HasColumnType("TEXT");
+                    b.Property<string>("AppUserId");
 
-                    b.Property<Guid>("ActivityId")
-                        .HasColumnType("TEXT");
+                    b.Property<Guid>("ActivityId");
 
-                    b.Property<DateTime>("DateJoined")
-                        .HasColumnType("TEXT");
+                    b.Property<DateTime>("DateJoined");
 
-                    b.Property<bool>("IsHost")
-                        .HasColumnType("INTEGER");
+                    b.Property<bool>("IsHost");
 
                     b.HasKey("AppUserId", "ActivityId");
 
@@ -188,11 +151,9 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.UserFollowing", b =>
                 {
-                    b.Property<string>("ObserverId")
-                        .HasColumnType("TEXT");
+                    b.Property<string>("ObserverId");
 
-                    b.Property<string>("TargetId")
-                        .HasColumnType("TEXT");
+                    b.Property<string>("TargetId");
 
                     b.HasKey("ObserverId", "TargetId");
 
@@ -204,11 +165,9 @@ namespace Persistence.Migrations
             modelBuilder.Entity("Domain.Value", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Name")
-                        .HasColumnType("TEXT");
+                    b.Property<string>("Name");
 
                     b.HasKey("Id");
 
@@ -234,19 +193,15 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("TEXT");
+                    b.Property<string>("Id");
 
                     b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken()
-                        .HasColumnType("TEXT");
+                        .IsConcurrencyToken();
 
                     b.Property<string>("Name")
-                        .HasColumnType("TEXT")
                         .HasMaxLength(256);
 
                     b.Property<string>("NormalizedName")
-                        .HasColumnType("TEXT")
                         .HasMaxLength(256);
 
                     b.HasKey("Id");
@@ -261,18 +216,14 @@ namespace Persistence.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .ValueGeneratedOnAdd();
 
-                    b.Property<string>("ClaimType")
-                        .HasColumnType("TEXT");
+                    b.Property<string>("ClaimType");
 
-                    b.Property<string>("ClaimValue")
-                        .HasColumnType("TEXT");
+                    b.Property<string>("ClaimValue");
 
                     b.Property<string>("RoleId")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
+                        .IsRequired();
 
                     b.HasKey("Id");
 
@@ -284,18 +235,14 @@ namespace Persistence.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .ValueGeneratedOnAdd();
 
-                    b.Property<string>("ClaimType")
-                        .HasColumnType("TEXT");
+                    b.Property<string>("ClaimType");
 
-                    b.Property<string>("ClaimValue")
-                        .HasColumnType("TEXT");
+                    b.Property<string>("ClaimValue");
 
                     b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
+                        .IsRequired();
 
                     b.HasKey("Id");
 
@@ -306,18 +253,14 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.Property<string>("LoginProvider")
-                        .HasColumnType("TEXT");
+                    b.Property<string>("LoginProvider");
 
-                    b.Property<string>("ProviderKey")
-                        .HasColumnType("TEXT");
+                    b.Property<string>("ProviderKey");
 
-                    b.Property<string>("ProviderDisplayName")
-                        .HasColumnType("TEXT");
+                    b.Property<string>("ProviderDisplayName");
 
                     b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
+                        .IsRequired();
 
                     b.HasKey("LoginProvider", "ProviderKey");
 
@@ -328,11 +271,9 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
                 {
-                    b.Property<string>("UserId")
-                        .HasColumnType("TEXT");
+                    b.Property<string>("UserId");
 
-                    b.Property<string>("RoleId")
-                        .HasColumnType("TEXT");
+                    b.Property<string>("RoleId");
 
                     b.HasKey("UserId", "RoleId");
 
@@ -343,17 +284,13 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.Property<string>("UserId")
-                        .HasColumnType("TEXT");
+                    b.Property<string>("UserId");
 
-                    b.Property<string>("LoginProvider")
-                        .HasColumnType("TEXT");
+                    b.Property<string>("LoginProvider");
 
-                    b.Property<string>("Name")
-                        .HasColumnType("TEXT");
+                    b.Property<string>("Name");
 
-                    b.Property<string>("Value")
-                        .HasColumnType("TEXT");
+                    b.Property<string>("Value");
 
                     b.HasKey("UserId", "LoginProvider", "Name");
 
