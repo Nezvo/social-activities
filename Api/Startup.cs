@@ -147,7 +147,7 @@ namespace Api
             {
                 endpoints.MapControllers();
                 endpoints.MapHub<ChatHub>("/chat");
-                endpoints.MapFallbackToController("index", "Fallback");
+                endpoints.MapFallbackToController("Index", "Fallback");
             });
         }
     }
