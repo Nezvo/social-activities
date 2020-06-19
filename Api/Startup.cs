@@ -167,7 +167,7 @@ namespace Api
                     .ScriptSources(s => s.Self().CustomSources("sha256-ma5XxS1EBgt17N22Qq31rOxxRWRfzUTQS1KOtfYwuNo="))
             );
 
-            // app.UseHttpsRedirection();
+            app.UseHttpsRedirection();
 
             app.UseDefaultFiles();
             app.UseStaticFiles();
