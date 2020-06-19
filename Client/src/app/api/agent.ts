@@ -5,7 +5,7 @@ import { toast } from 'react-toastify';
 import { IUser, IUserFormValues } from '../models/user';
 import { IProfile, IPhoto } from '../models/profile';
 
-Axios.defaults.baseURL = 'http://localhost:5000/api/';
+Axios.defaults.baseURL = process.env.REACT_APP_API_URL;
 
 Axios.interceptors.request.use(
   (config) => {
