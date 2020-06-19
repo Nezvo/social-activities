@@ -23,6 +23,7 @@ using Infrastructure.Photos;
 using Api.SignalR;
 using System.Threading.Tasks;
 using Application.Profiles;
+using System;
 
 namespace Api
 {
@@ -49,6 +50,7 @@ namespace Api
                 {
                     policy.AllowAnyHeader()
                     .AllowAnyMethod()
+                    .WithExposedHeaders("WWW-Authenticate")
                     .WithOrigins("http://localhost:3000")
                     .AllowCredentials();
                 });
@@ -90,7 +92,9 @@ namespace Api
                         ValidateIssuerSigningKey = true,
                         IssuerSigningKey = key,
                         ValidateAudience = false,
-                        ValidateIssuer = false
+                        ValidateIssuer = false,
+                        ValidateLifetime = true,
+                        ClockSkew = TimeSpan.Zero
                     };
                     opt.Events = new JwtBearerEvents
                     {
