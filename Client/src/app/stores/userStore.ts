@@ -57,4 +57,8 @@ export default class UserStore {
     this.user = null;
     history.push('/');
   };
+
+  @action fbLogin = async (response: any) => {
+    console.log(response);
+  };
 }
