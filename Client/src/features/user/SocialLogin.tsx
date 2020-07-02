@@ -4,9 +4,10 @@ import { Button, Icon } from 'semantic-ui-react';
 
 interface IProps {
 	fbCallback: (response: any) => void;
+	loading: boolean;
 }
 
-const SocialLogin: React.FC<IProps> = ({ fbCallback }) => {
+const SocialLogin: React.FC<IProps> = ({ fbCallback, loading }) => {
 	return (
 		<div>
 			<FacebookLogin
@@ -19,6 +20,7 @@ const SocialLogin: React.FC<IProps> = ({ fbCallback }) => {
 						type="button"
 						fluid
 						color="facebook"
+						loading={loading}
 					>
 						<Icon name="facebook" />
 						Login with Facebook
