@@ -4,9 +4,11 @@ using Microsoft.AspNetCore.SignalR;
 using Application.Comments;
 using System.Linq;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Api.SignalR
 {
+    [Authorize]
     public class ChatHub : Hub
     {
         private readonly IMediator mediator;
