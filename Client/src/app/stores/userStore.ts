@@ -60,5 +60,11 @@ export default class UserStore {
 
   @action fbLogin = async (response: any) => {
     console.log(response);
+    try {
+      const user = await agent.User.fbLogin(response.accessToken);
+      console.log(user);
+    } catch (error) {
+      throw error;
+    }
   };
 }

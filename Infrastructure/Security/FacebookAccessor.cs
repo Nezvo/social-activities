@@ -1,4 +1,3 @@
-using System;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
@@ -29,7 +28,7 @@ namespace Infrastructure.Security
         public async Task<FacebookUserInfo> FacebookLogin(string accessToken)
         {
             // verify token
-            var verifyToken = await httpClient.GetAsync($"debug_token?input_token={accessToken}&access_token{config.Value.AppId}|{config.Value.AppSecret}");
+            var verifyToken = await httpClient.GetAsync($"debug_token?input_token={accessToken}&access_token={config.Value.AppId}|{config.Value.AppSecret}");
 
             if (!verifyToken.IsSuccessStatusCode)
                 return null;
