@@ -26,10 +26,7 @@ Axios.interceptors.response.use(undefined, (error) => {
 		history.push('/notfound');
 	}
 	if (status === 401 && originalRequest.url.endsWith('refresh')) {
-		window.localStorage.removeItem('jwt');
-		window.localStorage.removeItem('refreshToken');
 		history.push('/');
-		toast.info('Your session has expired, please login again');
 		return Promise.reject(error);
 	}
 	if (status === 401 && !originalRequest._retry) {
@@ -38,12 +35,17 @@ Axios.interceptors.response.use(undefined, (error) => {
 			token: window.localStorage.getItem('jwt'),
 			refreshToken: window.localStorage.getItem('refreshToken'),
 		}).then((res) => {
-			window.localStorage.setItem('jwt', res.data.token);
-			window.localStorage.setItem('refreshToken', res.data.refreshToken);
-			Axios.defaults.headers.common[
-				'Authorization'
-			] = `Bearer ${res.data.token}`;
-			return Axios(originalRequest);
+			if (res.status === 200) {
+				localStorage.setItem('jwt', res.data.token);
+				localStorage.setItem('refreshToken', res.data.refreshToken);
+				Axios.defaults.headers.common[
+					'Authorization'
+				] = `Bearer ${res.data.token}`;
+				return Axios(originalRequest);
+			}
+			history.push('/');
+			toast.info('Your session has expired, please login again');
+			return Promise.reject(error);
 		});
 	}
 	if (
@@ -101,7 +103,17 @@ const User = {
 	register: (user: IUserFormValues): Promise<IUser> =>
 		requests.post('/user/register', user),
 	fbLogin: (accessToken: string) =>
-		requests.post(`/user/facebook`, { accessToken }),
+		requests.post('/user/facebook', { accessToken }),
+	refreshToken: (token: string, refreshToken: string) => {
+		return Axios.post('user/refresh', { token, refreshToken }).then((res) => {
+			window.localStorage.setItem('jwt', res.data.token);
+			window.localStorage.setItem('refreshToken', res.data.refreshToken);
+			Axios.defaults.headers.common[
+				'Authorization'
+			] = `Bearer ${res.data.token}`;
+			return res.data.token;
+		});
+	},
 };
 
 const Profiles = {
