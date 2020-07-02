@@ -35,7 +35,7 @@
  11. You can login to the application using one of the test user accounts that was seeded when you started the API. You can use the following test user: 
 
 > email:  bob@test.com
-password:  Pa$$w0rd
+> password:  Pa$$w0rd
 
 ## Facebook login
 
