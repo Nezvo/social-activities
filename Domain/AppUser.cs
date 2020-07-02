@@ -5,6 +5,11 @@ namespace Domain
 {
     public class AppUser : IdentityUser
     {
+        public AppUser()
+        {
+            Photos = new HashSet<Photo>();
+        }
+
         public string DisplayName { get; set; }
         public string Bio { get; set; }
         public virtual ICollection<UserActivity> UserActivities { get; set; }
