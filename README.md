@@ -1,4 +1,3 @@
-
 ![logo](https://github.com/Nezvo/social-activities/blob/master/Client/public/assets/logo.png)
 
 # Social Activities
