@@ -61,7 +61,9 @@ namespace Application.User
                 {
                     DisplayName = request.DisplayName,
                     Email = request.Email,
-                    UserName = request.UserName
+                    UserName = request.UserName,
+                    RefreshToken = jwtGenerator.GenerateRefreshToken(),
+                    RefreshTokenExpiry = DateTime.Now.AddDays(30)
                 };
 
                 var result = await userManager.CreateAsync(user, request.Password);
@@ -71,6 +73,7 @@ namespace Application.User
                     {
                         DisplayName = user.DisplayName,
                         Token = jwtGenerator.CreateToken(user),
+                        RefreshToken = user.RefreshToken,
                         UserName = user.UserName,
                         Image = user.Photos.FirstOrDefault(x => x.IsMain)?.Url
                     };
