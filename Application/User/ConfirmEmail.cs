@@ -9,41 +9,41 @@ using Microsoft.AspNetCore.WebUtilities;
 
 namespace Application.User
 {
-  public class ConfirmEmail
-  {
-
-    public class Command : IRequest<IdentityResult>
-    {
-      public string Token { get; set; }
-      public string Email { get; set; }
-    }
-
-    public class ComandValidator : AbstractValidator<Command>
-    {
-      public ComandValidator()
-      {
-        RuleFor(x => x.Email).NotEmpty();
-        RuleFor(x => x.Token).NotEmpty();
-      }
-    }
-
-    public class Handler : IRequestHandler<Command, IdentityResult>
+    public class ConfirmEmail
     {
 
-      private readonly UserManager<AppUser> userManager;
+        public class Command : IRequest<IdentityResult>
+        {
+            public string Token { get; set; }
+            public string Email { get; set; }
+        }
 
-      public Handler(UserManager<AppUser> userManager)
-      {
-        this.userManager = userManager;
-      }
+        public class ComandValidator : AbstractValidator<Command>
+        {
+            public ComandValidator()
+            {
+                RuleFor(x => x.Email).NotEmpty();
+                RuleFor(x => x.Token).NotEmpty();
+            }
+        }
 
-      public async Task<IdentityResult> Handle(Command request, CancellationToken cancellationToken)
-      {
-        var user = await userManager.FindByEmailAsync(request.Email);
-        var decodedTokenBytes = WebEncoders.Base64UrlDecode(request.Token);
-        var decodedToken = Encoding.UTF8.GetString(decodedTokenBytes);
-        return await userManager.ConfirmEmailAsync(user, decodedToken);
-      }
+        public class Handler : IRequestHandler<Command, IdentityResult>
+        {
+
+            private readonly UserManager<AppUser> userManager;
+
+            public Handler(UserManager<AppUser> userManager)
+            {
+                this.userManager = userManager;
+            }
+
+            public async Task<IdentityResult> Handle(Command request, CancellationToken cancellationToken)
+            {
+                var user = await userManager.FindByEmailAsync(request.Email);
+                var decodedTokenBytes = WebEncoders.Base64UrlDecode(request.Token);
+                var decodedToken = Encoding.UTF8.GetString(decodedTokenBytes);
+                return await userManager.ConfirmEmailAsync(user, decodedToken);
+            }
+        }
     }
-  }
 }
