@@ -27,7 +27,7 @@
 	"ApiKey": "YourApiKey"
 }
 ```
- 5. For email verification we are using SendGrid. In order to register new users and confirm their email, you need to create SendGrid account and configure Sender Authentication (Single Sender Verification will work) and create new API key. After this you need to add the following in the appsetting.json
+ 5. For email verification we are using SendGrid. In order to register new users and confirm their email, you need to create SendGrid account and configure Sender Authentication (Single Sender Verification will work) and create new API key. After this you need to add the following in the appsetting.json.
  ```javascript
 "SendGrid": {
 	"email": "YourEmailForSenderAuthentication",
