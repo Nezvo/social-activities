@@ -27,7 +27,8 @@ namespace Api.Controllers
 
         [AllowAnonymous]
         [HttpPost("register")]
-        public async Task<ActionResult> Register(Register.Command request) {
+        public async Task<ActionResult> Register(Register.Command request)
+        {
             request.Origin = Request.Headers["origin"];
             await Mediator.Send(request);
 
@@ -53,13 +54,24 @@ namespace Api.Controllers
 
         [AllowAnonymous]
         [HttpPost("verifyEmail")]
-        public async Task<ActionResult> VerifyEmail(ConfirmEmail.Command command) {
+        public async Task<ActionResult> VerifyEmail(ConfirmEmail.Command command)
+        {
             var result = await Mediator.Send(command);
 
             if (!result.Succeeded)
                 return BadRequest("Problem veryfying email address");
-            
+
             return Ok("Email confirmed - you can now login");
+        }
+
+        [AllowAnonymous]
+        [HttpGet("resendEmailVerification")]
+        public async Task<ActionResult> ResendEmailVerification([FromQuery] ResendEmailVerification.Query query)
+        {
+            query.Origin = Request.Headers["origin"];
+            await Mediator.Send(query);
+
+            return Ok("Email verification link sent - please check email");
         }
 
         private ClaimsPrincipal GetPrincipalFromExpiredToken(string token)
