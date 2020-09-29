@@ -27,7 +27,12 @@ namespace Api.Controllers
 
         [AllowAnonymous]
         [HttpPost("register")]
-        public async Task<ActionResult<User>> Register(Register.Command request) => await Mediator.Send(request);
+        public async Task<ActionResult> Register(Register.Command request) {
+            request.Origin = Request.Headers["origin"];
+            await Mediator.Send(request);
+
+            return Ok("Registration successful - please check your email");
+        }
 
         [HttpGet]
         public async Task<ActionResult<User>> CurrentUser() => await Mediator.Send(new CurrentUser.Query());
@@ -44,6 +49,17 @@ namespace Api.Controllers
             query.UserName = principal.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
 
             return await Mediator.Send(query);
+        }
+
+        [AllowAnonymous]
+        [HttpPost("verifyEmail")]
+        public async Task<ActionResult> VerifyEmail(ConfirmEmail.Command command) {
+            var result = await Mediator.Send(command);
+
+            if (!result.Succeeded)
+                return BadRequest("Problem veryfying email address");
+            
+            return Ok("Email confirmed - you can now login");
         }
 
         private ClaimsPrincipal GetPrincipalFromExpiredToken(string token)
