@@ -27,6 +27,14 @@
 	"ApiKey": "YourApiKey"
 }
 ```
+ 5. For email verification we are using SendGrid. In order to register new users and confirm their email, you need to create SendGrid account and configure Sender Authentication (Single Sender Verification will work) and create new API key. After this you need to add the following in the appsetting.json
+ ```javascript
+"SendGrid": {
+	"email": "YourEmailForSenderAuthentication",
+	"User": "YourApiKeyName",
+	"Key": "YourApiKey"
+}
+```
  6. You should now be able to start the Api. This will also create a Sqlite DB file inside the Api project and seed some initial data into the database.
  7. Change directory into the Api and run the command `dotnet run`
  8. You should now see the API project running on Port 5000.
