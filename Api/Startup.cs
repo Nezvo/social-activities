@@ -24,6 +24,7 @@ using Api.SignalR;
 using System.Threading.Tasks;
 using Application.Profiles;
 using System;
+using Infrastructure.Email;
 
 namespace Api
 {
@@ -136,8 +137,10 @@ namespace Api
             services.AddScoped<IPhotoAccessor, PhotoAccessor>();
             services.AddScoped<IProfileReader, ProfileReader>();
             services.AddScoped<IFacebookAccessor, FacebookAccessor>();
+            services.AddScoped<IEmailSender, EmailSender>();
             services.Configure<CloudinarySettings>(Configuration.GetSection("Cloudinary"));
             services.Configure<FacebookAppSettings>(Configuration.GetSection("Authentication:Facebook"));
+            services.Configure<SendGridSettings>(Configuration.GetSection("SendGrid"));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
