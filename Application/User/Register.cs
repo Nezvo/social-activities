@@ -1,6 +1,6 @@
 using System;
-using System.Linq;
 using System.Net;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Application.Errors;
@@ -10,6 +10,7 @@ using Domain;
 using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
 
@@ -17,12 +18,13 @@ namespace Application.User
 {
     public class Register
     {
-        public class Command : IRequest<User>
+        public class Command : IRequest
         {
             public string DisplayName { get; set; }
             public string UserName { get; set; }
             public string Email { get; set; }
             public string Password { get; set; }
+            public string Origin { get; set; }
         }
 
         public class CommandValidator : AbstractValidator<Command>
@@ -36,20 +38,20 @@ namespace Application.User
             }
         }
 
-        public class Handler : IRequestHandler<Command, User>
+        public class Handler : IRequestHandler<Command>
         {
             private readonly DataContext context;
             private readonly UserManager<AppUser> userManager;
-            private readonly IJwtGenerator jwtGenerator;
+            private readonly IEmailSender emailSender;
 
-            public Handler(DataContext context, UserManager<AppUser> userManager, IJwtGenerator jwtGenerator)
+            public Handler(DataContext context, UserManager<AppUser> userManager, IEmailSender emailSender)
             {
+                this.emailSender = emailSender;
                 this.context = context;
                 this.userManager = userManager;
-                this.jwtGenerator = jwtGenerator;
             }
 
-            public async Task<User> Handle(Command request, CancellationToken cancellationToken)
+            public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
                 if (await context.Users.AnyAsync(x => x.Email == request.Email))
                     throw new RestException(HttpStatusCode.BadRequest, new { Email = "Email already exists" });
@@ -62,23 +64,23 @@ namespace Application.User
                     DisplayName = request.DisplayName,
                     Email = request.Email,
                     UserName = request.UserName,
-                    RefreshToken = jwtGenerator.GenerateRefreshToken(),
-                    RefreshTokenExpiry = DateTime.Now.AddDays(30)
                 };
 
                 var result = await userManager.CreateAsync(user, request.Password);
 
-                if (result.Succeeded)
-                    return new User
-                    {
-                        DisplayName = user.DisplayName,
-                        Token = jwtGenerator.CreateToken(user),
-                        RefreshToken = user.RefreshToken,
-                        UserName = user.UserName,
-                        Image = user.Photos.FirstOrDefault(x => x.IsMain)?.Url
-                    };
+                if (!result.Succeeded)
+                    throw new Exception("Problem creating user");
 
-                throw new Exception("Problem creating user");
+                var token = await userManager.GenerateEmailConfirmationTokenAsync(user);
+                token = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(token));
+
+                var verifyUrl = $"{request.Origin}/user/verifyEmail?token={token}&email={request.Email}";
+
+                var message = $"<p>Please click the bellow link to verify your email address:</p><p><a href='{verifyUrl}'>{verifyUrl}</a></p>";
+
+                await emailSender.SendEmailAsync(request.Email, "Please verify email address", message);
+
+                return Unit.Value;
             }
         }
     }
