@@ -114,6 +114,10 @@ const User = {
 			return res.data.token;
 		});
 	},
+	verifyEmail: (token: string, email: string): Promise<void> =>
+		requests.post(`/user/verifyEmail`, { token, email }),
+	resendEmailVerification: (email: string): Promise<void> =>
+		requests.get(`/user/resendEmailVerification?email=${email}`)
 };
 
 const Profiles = {
