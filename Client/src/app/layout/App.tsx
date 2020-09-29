@@ -64,11 +64,11 @@ const App: React.FC<RouteComponentProps> = ({ location }) => {
 									path="/profile/:username"
 									component={ProfilePage}
 								/>
-								<PrivateRoute
+								<Route
 									path="/user/registerSuccess"
 									component={RegisterSuccess}
 								/>
-								<PrivateRoute
+								<Route
 									path="/user/verifyEmail"
 									component={VerifyEmail}
 								/>

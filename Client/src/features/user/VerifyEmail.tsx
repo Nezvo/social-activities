@@ -58,7 +58,7 @@ const VerifyEmail: React.FC<RouteComponentProps> = ({ location }) => {
 							primary
 							onClick={() => openModal(<LoginForm />)}
 							size="large"
-							content="Resend email"
+							content="Login"
 						/>
 					</div>
 				);
