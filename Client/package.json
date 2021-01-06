@@ -19,7 +19,7 @@
     "@types/react-widgets": "^4.4.3",
     "@types/revalidate": "^1.1.2",
     "@types/uuid": "^7.0.4",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "date-fns": "^2.16.1",
     "final-form": "^4.20.1",
     "jsonwebtoken": "^8.5.1",
